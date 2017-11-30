@@ -34,7 +34,6 @@ RUN echo Start! \
  && python3 -m pip --no-cache-dir install ${PIP_PACKAGE} \
  && python2 -m ipykernel install --user \
  && python3 -m ipykernel install --user \
- && apt-get -y purge ${APT_TMP_PACKAGES} \
  && echo Complete!
 
 CMD ["jupyter", "notebook", "--no-browser", "--allow-root", "--notebook-dir='/root'", "--ip='0.0.0.0'"]
