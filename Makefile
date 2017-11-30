@@ -1,5 +1,9 @@
+ifneq (x${http_proxy},x)
+ARGS = --build-arg PROXY=${http_proxy}
+endif
+
 ifneq (x${APT_SERVER},x)
-ARGS = --build-arg APT_SERVER=${APT_SERVER}
+ARGS += --build-arg APT_SERVER=${APT_SERVER}
 endif
 
 .PHONY: build
