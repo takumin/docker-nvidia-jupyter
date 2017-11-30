@@ -8,7 +8,7 @@ ARG APT_SERVER="http://jp.archive.ubuntu.com/ubuntu"
 
 RUN echo Start! \
  && APT_PACKAGES="python python3 python-dev python3-dev python-pip python3-pip libhdf5-dev" \
- && PIP_PACKAGES="cython six ipykernel jupyter numpy scipy pandas matplotlib pillow h5py tensorflow-gpu chainer cupy keras" \
+ && PIP_PACKAGES="cython six ipykernel jupyter numpy scipy scikit-learn pandas matplotlib pillow h5py tensorflow-gpu chainer cupy keras" \
  && if [ "x${PROXY}" != "x" ]; then export ftp_proxy="${PROXY}"; fi \
  && if [ "x${PROXY}" != "x" ]; then export FTP_PROXY="${PROXY}"; fi \
  && if [ "x${PROXY}" != "x" ]; then export http_proxy="${PROXY}"; fi \
@@ -34,6 +34,14 @@ RUN echo Start! \
  && python3 -m pip --no-cache-dir install ${PIP_PACKAGES} \
  && python2 -m ipykernel install --user \
  && python3 -m ipykernel install --user \
+ && mkdir /etc/jupyter \
+ && echo "# Jupyter Notebook Configuration"     >  /etc/jupyter/jupyter_notebook_config.py \
+ && echo "c.NotebookApp.ip = '*'"               >> /etc/jupyter/jupyter_notebook_config.py \
+ && echo "c.NotebookApp.port = 8888"            >> /etc/jupyter/jupyter_notebook_config.py \
+ && echo "c.NotebookApp.open_browser = False"   >> /etc/jupyter/jupyter_notebook_config.py \
+ && echo "c.NotebookApp.allow_root = True"      >> /etc/jupyter/jupyter_notebook_config.py \
+ && echo "c.NotebookApp.notebook_dir = '/root'" >> /etc/jupyter/jupyter_notebook_config.py \
+ && echo "c.NotebookApp.token = ''"             >> /etc/jupyter/jupyter_notebook_config.py \
  && echo Complete!
 
-CMD ["jupyter", "notebook", "--no-browser", "--allow-root", "--notebook-dir='/root'", "--ip='0.0.0.0'"]
+CMD ["jupyter", "notebook"]
