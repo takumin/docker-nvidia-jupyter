@@ -7,9 +7,8 @@ ARG NO_PROXY
 ARG APT_SERVER="http://jp.archive.ubuntu.com/ubuntu"
 
 RUN echo Start! \
- && APT_REQ_PACKAGES="python python3 cython cython3 python-dev python3-dev python-pip python3-pip" \
- && APT_TMP_PACKAGES="libhdf5-dev" \
- && PIP_REQ_PACKAGES="six ipykernel jupyter numpy scipy pandas matplotlib pillow h5py tensorflow-gpu chainer cupy keras" \
+ && APT_PACKAGES="python python3 cython cython3 python-dev python3-dev python-pip python3-pip libhdf5-dev" \
+ && PIP_PACKAGES="six ipykernel jupyter numpy scipy pandas matplotlib pillow h5py tensorflow-gpu chainer cupy keras" \
  && if [ "x${PROXY}" != "x" ]; then export ftp_proxy="${PROXY}"; fi \
  && if [ "x${PROXY}" != "x" ]; then export FTP_PROXY="${PROXY}"; fi \
  && if [ "x${PROXY}" != "x" ]; then export http_proxy="${PROXY}"; fi \
@@ -26,14 +25,13 @@ RUN echo Start! \
  && export DEBCONF_NONINTERACTIVE_SEEN="true" \
  && apt-get -y update \
  && apt-get -y dist-upgrade \
- && apt-get -y --no-install-recommends install ${APT_REQ_PACKAGES} \
- && apt-get -y --no-install-recommends install ${APT_TMP_PACKAGES} \
+ && apt-get -y --no-install-recommends install ${APT_PACKAGES} \
  && apt-get clean \
  && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* \
- && python2 -m pip install --no-cache-dir --upgrade pip setuptools wheel \
- && python3 -m pip install --no-cache-dir --upgrade pip setuptools wheel \
- && python2 -m pip install --no-cache-dir ${PIP_PACKAGE} \
- && python3 -m pip install --no-cache-dir ${PIP_PACKAGE} \
+ && python2 -m pip --no-cache-dir install --upgrade pip setuptools wheel \
+ && python3 -m pip --no-cache-dir install --upgrade pip setuptools wheel \
+ && python2 -m pip --no-cache-dir install ${PIP_PACKAGE} \
+ && python3 -m pip --no-cache-dir install ${PIP_PACKAGE} \
  && python2 -m ipykernel install --user \
  && python3 -m ipykernel install --user \
  && apt-get -y purge ${APT_TMP_PACKAGES} \
