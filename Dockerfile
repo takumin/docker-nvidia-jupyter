@@ -7,8 +7,8 @@ ARG NO_PROXY
 ARG APT_SERVER="http://jp.archive.ubuntu.com/ubuntu"
 
 RUN echo Start! \
- && APT_PACKAGES="python python3 cython cython3 python-dev python3-dev python-pip python3-pip libhdf5-dev" \
- && PIP_PACKAGES="six ipykernel jupyter numpy scipy pandas matplotlib pillow h5py tensorflow-gpu chainer cupy keras" \
+ && APT_PACKAGES="python python3 python-dev python3-dev python-pip python3-pip libhdf5-dev" \
+ && PIP_PACKAGES="cython six ipykernel jupyter numpy scipy pandas matplotlib pillow h5py tensorflow-gpu chainer cupy keras" \
  && if [ "x${PROXY}" != "x" ]; then export ftp_proxy="${PROXY}"; fi \
  && if [ "x${PROXY}" != "x" ]; then export FTP_PROXY="${PROXY}"; fi \
  && if [ "x${PROXY}" != "x" ]; then export http_proxy="${PROXY}"; fi \
