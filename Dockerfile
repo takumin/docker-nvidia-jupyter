@@ -30,8 +30,8 @@ RUN echo Start! \
  && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* \
  && python2 -m pip --no-cache-dir install --upgrade pip setuptools wheel \
  && python3 -m pip --no-cache-dir install --upgrade pip setuptools wheel \
- && python2 -m pip --no-cache-dir install ${PIP_PACKAGE} \
- && python3 -m pip --no-cache-dir install ${PIP_PACKAGE} \
+ && python2 -m pip --no-cache-dir install ${PIP_PACKAGES} \
+ && python3 -m pip --no-cache-dir install ${PIP_PACKAGES} \
  && python2 -m ipykernel install --user \
  && python3 -m ipykernel install --user \
  && echo Complete!
