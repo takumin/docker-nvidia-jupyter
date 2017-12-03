@@ -36,7 +36,6 @@ RUN echo Start! \
  && python3 -m ipykernel install --sys-prefix \
  && python2 -m bash_kernel.install --sys-prefix \
  && python3 -m bash_kernel.install --sys-prefix \
- && jupyter contrib nbextension install --sys-prefix \
  && jupyter serverextension enable --py ipyparallel --sys-prefix \
  && jupyter nbextension install --py ipyparallel --sys-prefix \
  && jupyter nbextension enable --py ipyparallel --sys-prefix \
