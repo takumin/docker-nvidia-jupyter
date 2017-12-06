@@ -50,7 +50,7 @@ RUN echo Start! \
  && adduser --disabled-password --gecos "Jupyter Notebook,,," --shell /bin/bash jupyter \
  && echo Complete!
 
-ADD notebook/* /home/jupyter/
+COPY notebook/ /home/jupyter/
 RUN chown -R jupyter:jupyter /home/jupyter
 
 EXPOSE 8888
