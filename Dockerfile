@@ -9,7 +9,7 @@ ARG NVIDIA_CUDA_MIRROR="http://developer.download.nvidia.com/compute/cuda/repos/
 ARG NVIDIA_ML_MIRROR="http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64"
 
 RUN echo Start! \
- && APT_PACKAGES="python python3 python-dev python3-dev python-pip python3-pip libhdf5-dev" \
+ && APT_PACKAGES="python python3 python-dev python3-dev python-pip python3-pip libhdf5-dev openmpi-bin" \
  && PIP_PACKAGES="cython six ipykernel ipyparallel jupyter numpy scipy scikit-learn pandas matplotlib pillow h5py tensorflow-gpu chainer cupy keras" \
  && if [ "x${PROXY}" != "x" ]; then export ftp_proxy="${PROXY}"; fi \
  && if [ "x${PROXY}" != "x" ]; then export FTP_PROXY="${PROXY}"; fi \
@@ -40,6 +40,8 @@ RUN echo Start! \
  && python3 -m pip --no-cache-dir install https://github.com/ipython-contrib/jupyter_contrib_nbextensions/tarball/master \
  && python2 -m pip --no-cache-dir install jupyter-tensorboard \
  && python3 -m pip --no-cache-dir install jupyter-tensorboard \
+ && python2 -m pip --no-cache-dir install https://cntk.ai/PythonWheel/GPU-1bit-SGD/cntk-2.3-cp27-cp27mu-linux_x86_64.whl \
+ && python3 -m pip --no-cache-dir install https://cntk.ai/PythonWheel/GPU-1bit-SGD/cntk-2.3-cp35-cp35m-linux_x86_64.whl \
  && python2 -m ipykernel install --sys-prefix \
  && python3 -m ipykernel install --sys-prefix \
  && jupyter contrib nbextension install --sys-prefix --symlink \
