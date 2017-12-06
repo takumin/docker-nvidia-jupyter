@@ -10,7 +10,7 @@ ARG NVIDIA_ML_MIRROR="http://developer.download.nvidia.com/compute/machine-learn
 
 RUN echo Start! \
  && APT_PACKAGES="python python3 python-dev python3-dev python-pip python3-pip libhdf5-dev" \
- && PIP_PACKAGES="cython six ipykernel ipyparallel jupyter jupyter_contrib_nbextensions bash_kernel numpy scipy scikit-learn pandas matplotlib pillow h5py tensorflow-gpu chainer cupy keras" \
+ && PIP_PACKAGES="cython six ipykernel ipyparallel jupyter numpy scipy scikit-learn pandas matplotlib pillow h5py tensorflow-gpu chainer cupy keras" \
  && if [ "x${PROXY}" != "x" ]; then export ftp_proxy="${PROXY}"; fi \
  && if [ "x${PROXY}" != "x" ]; then export FTP_PROXY="${PROXY}"; fi \
  && if [ "x${PROXY}" != "x" ]; then export http_proxy="${PROXY}"; fi \
@@ -36,14 +36,16 @@ RUN echo Start! \
  && python3 -m pip --no-cache-dir install --upgrade pip setuptools wheel \
  && python2 -m pip --no-cache-dir install ${PIP_PACKAGES} \
  && python3 -m pip --no-cache-dir install ${PIP_PACKAGES} \
+ && python2 -m pip --no-cache-dir install https://github.com/ipython-contrib/jupyter_contrib_nbextensions/tarball/master \
+ && python3 -m pip --no-cache-dir install https://github.com/ipython-contrib/jupyter_contrib_nbextensions/tarball/master \
+ && python2 -m pip --no-cache-dir install jupyter-tensorboard \
+ && python3 -m pip --no-cache-dir install jupyter-tensorboard \
  && python2 -m ipykernel install --sys-prefix \
  && python3 -m ipykernel install --sys-prefix \
- && python2 -m bash_kernel.install --sys-prefix \
- && python3 -m bash_kernel.install --sys-prefix \
- && jupyter contrib nbextension install --sys-prefix \
- && jupyter serverextension enable --py ipyparallel --sys-prefix \
+ && jupyter contrib nbextension install --sys-prefix --symlink \
  && jupyter nbextension install --py ipyparallel --sys-prefix \
  && jupyter nbextension enable --py ipyparallel --sys-prefix \
+ && jupyter serverextension enable --py ipyparallel --sys-prefix \
  && mkdir /etc/jupyter \
  && echo "# Jupyter Notebook Configuration"             >  /etc/jupyter/jupyter_notebook_config.py \
  && echo "c.NotebookApp.ip = '*'"                       >> /etc/jupyter/jupyter_notebook_config.py \
