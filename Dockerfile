@@ -4,7 +4,9 @@ MAINTAINER Takumi Takahashi <takumiiinn@gmail.com>
 
 ARG PROXY
 ARG NO_PROXY
-ARG APT_SERVER="http://jp.archive.ubuntu.com/ubuntu"
+ARG UBUNTU_MIRROR="http://jp.archive.ubuntu.com/ubuntu"
+ARG NVIDIA_CUDA_MIRROR="http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64"
+ARG NVIDIA_ML_MIRROR="http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64"
 
 RUN echo Start! \
  && APT_PACKAGES="python python3 python-dev python3-dev python-pip python3-pip libhdf5-dev" \
@@ -17,9 +19,11 @@ RUN echo Start! \
  && if [ "x${PROXY}" != "x" ]; then export HTTPS_PROXY="${PROXY}"; fi \
  && if [ "x${PROXY}" != "x" ]; then export no_proxy="${NO_PROXY}"; fi \
  && if [ "x${PROXY}" != "x" ]; then export NO_PROXY="${NO_PROXY}"; fi \
- && echo "deb ${APT_SERVER} xenial          main restricted universe multiverse" >  /etc/apt/sources.list \
- && echo "deb ${APT_SERVER} xenial-updates  main restricted universe multiverse" >> /etc/apt/sources.list \
- && echo "deb ${APT_SERVER} xenial-security main restricted universe multiverse" >> /etc/apt/sources.list \
+ && echo "deb ${UBUNTU_MIRROR} xenial          main restricted universe multiverse" >  /etc/apt/sources.list \
+ && echo "deb ${UBUNTU_MIRROR} xenial-updates  main restricted universe multiverse" >> /etc/apt/sources.list \
+ && echo "deb ${UBUNTU_MIRROR} xenial-security main restricted universe multiverse" >> /etc/apt/sources.list \
+ && echo "deb ${NVIDIA_CUDA_MIRROR} /" > /etc/apt/sources.list.d/cuda.list \
+ && echo "deb ${NVIDIA_ML_MIRROR} /" > /etc/apt/sources.list.d/nvidia-ml.list \
  && export DEBIAN_FRONTEND="noninteractive" \
  && export DEBIAN_PRIORITY="critical" \
  && export DEBCONF_NONINTERACTIVE_SEEN="true" \
@@ -36,6 +40,7 @@ RUN echo Start! \
  && python3 -m ipykernel install --sys-prefix \
  && python2 -m bash_kernel.install --sys-prefix \
  && python3 -m bash_kernel.install --sys-prefix \
+ && jupyter contrib nbextension install --sys-prefix \
  && jupyter serverextension enable --py ipyparallel --sys-prefix \
  && jupyter nbextension install --py ipyparallel --sys-prefix \
  && jupyter nbextension enable --py ipyparallel --sys-prefix \
@@ -53,6 +58,6 @@ RUN echo Start! \
 COPY notebook/ /home/jupyter/
 RUN chown -R jupyter:jupyter /home/jupyter
 
-EXPOSE 8888
-CMD ["env", "SHELL=/bin/bash", "jupyter", "notebook"]
 USER jupyter
+CMD ["env", "SHELL=/bin/bash", "jupyter", "notebook"]
+EXPOSE 8888
