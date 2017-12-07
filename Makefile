@@ -30,12 +30,12 @@ endif
 
 .PHONY: build
 build:
-	@docker build $(ARGS) -t takumin/nvidia-jupyter .
+	@docker build $(ARGS) -t takumi/nvidia-jupyter .
 
 .PHONY: run
 run:
-	@docker run --runtime=nvidia --name jupyter -p 8888:8888 -d takumin/nvidia-jupyter
+	@docker run --runtime=nvidia --name jupyter -p 8888:8888 -d takumi/nvidia-jupyter
 
 .PHONY: clean
 clean:
-	@docker rmi takumin/nvidia-jupyter
+	@docker rmi takumi/nvidia-jupyter
