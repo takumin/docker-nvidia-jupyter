@@ -2,8 +2,10 @@ FROM nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
 
 MAINTAINER Takumi Takahashi <takumiiinn@gmail.com>
 
-ARG PROXY
 ARG NO_PROXY
+ARG FTP_PROXY
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
 ARG UBUNTU_MIRROR="http://jp.archive.ubuntu.com/ubuntu"
 ARG NVIDIA_CUDA_MIRROR="http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64"
 ARG NVIDIA_ML_MIRROR="http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64"
@@ -11,14 +13,14 @@ ARG NVIDIA_ML_MIRROR="http://developer.download.nvidia.com/compute/machine-learn
 RUN echo Start! \
  && APT_PACKAGES="python python3 python-dev python3-dev python-pip python3-pip libhdf5-dev openmpi-bin" \
  && PIP_PACKAGES="cython six ipykernel ipyparallel jupyter numpy scipy scikit-learn pandas matplotlib pillow h5py tensorflow-gpu chainer cupy keras" \
- && if [ "x${PROXY}" != "x" ]; then export ftp_proxy="${PROXY}"; fi \
- && if [ "x${PROXY}" != "x" ]; then export FTP_PROXY="${PROXY}"; fi \
- && if [ "x${PROXY}" != "x" ]; then export http_proxy="${PROXY}"; fi \
- && if [ "x${PROXY}" != "x" ]; then export HTTP_PROXY="${PROXY}"; fi \
- && if [ "x${PROXY}" != "x" ]; then export https_proxy="${PROXY}"; fi \
- && if [ "x${PROXY}" != "x" ]; then export HTTPS_PROXY="${PROXY}"; fi \
- && if [ "x${PROXY}" != "x" ]; then export no_proxy="${NO_PROXY}"; fi \
- && if [ "x${PROXY}" != "x" ]; then export NO_PROXY="${NO_PROXY}"; fi \
+ && if [ "x${NO_PROXY}" != "x" ]; then export no_proxy="${NO_PROXY}"; fi \
+ && if [ "x${NO_PROXY}" != "x" ]; then export NO_PROXY="${NO_PROXY}"; fi \
+ && if [ "x${FTP_PROXY}" != "x" ]; then export ftp_proxy="${FTP_PROXY}"; fi \
+ && if [ "x${FTP_PROXY}" != "x" ]; then export FTP_PROXY="${FTP_PROXY}"; fi \
+ && if [ "x${HTTP_PROXY}" != "x" ]; then export http_proxy="${HTTP_PROXY}"; fi \
+ && if [ "x${HTTP_PROXY}" != "x" ]; then export HTTP_PROXY="${HTTP_PROXY}"; fi \
+ && if [ "x${HTTPS_PROXY}" != "x" ]; then export https_proxy="${HTTPS_PROXY}"; fi \
+ && if [ "x${HTTPS_PROXY}" != "x" ]; then export HTTPS_PROXY="${HTTPS_PROXY}"; fi \
  && echo "deb ${UBUNTU_MIRROR} xenial          main restricted universe multiverse" >  /etc/apt/sources.list \
  && echo "deb ${UBUNTU_MIRROR} xenial-updates  main restricted universe multiverse" >> /etc/apt/sources.list \
  && echo "deb ${UBUNTU_MIRROR} xenial-security main restricted universe multiverse" >> /etc/apt/sources.list \

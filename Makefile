@@ -1,17 +1,19 @@
-ifneq (x${http_proxy},x)
-ARGS = --build-arg PROXY=${http_proxy}
+ARGS ?= --no-cache
+
+ifneq (x${NO_PROXY},x)
+ARGS += --build-arg NO_PROXY=${NO_PROXY}
+endif
+
+ifneq (x${FTP_PROXY},x)
+ARGS += --build-arg FTP_PROXY=${FTP_PROXY}
 endif
 
 ifneq (x${HTTP_PROXY},x)
-ARGS = --build-arg PROXY=${HTTP_PROXY}
+ARGS += --build-arg HTTP_PROXY=${HTTP_PROXY}
 endif
 
-ifneq (x${no_proxy},x)
-ARGS = --build-arg NO_PROXY=${no_proxy}
-endif
-
-ifneq (x${NO_PROXY},x)
-ARGS = --build-arg NO_PROXY=${NO_PROXY}
+ifneq (x${HTTPS_PROXY},x)
+ARGS += --build-arg HTTPS_PROXY=${HTTPS_PROXY}
 endif
 
 ifneq (x${UBUNTU_MIRROR},x)
@@ -28,7 +30,7 @@ endif
 
 .PHONY: build
 build:
-	@docker build --no-cache $(ARGS) -t takumin/nvidia-jupyter .
+	@docker build $(ARGS) -t takumin/nvidia-jupyter .
 
 .PHONY: run
 run:
