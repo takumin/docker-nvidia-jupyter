@@ -13,14 +13,6 @@ ARG NVIDIA_ML_MIRROR="http://developer.download.nvidia.com/compute/machine-learn
 RUN echo Start! \
  && APT_PACKAGES="python python3 python-dev python3-dev python-pip python3-pip libhdf5-dev openmpi-bin" \
  && PIP_PACKAGES="cython six ipykernel ipyparallel jupyter numpy scipy scikit-learn pandas matplotlib pillow h5py tensorflow-gpu chainer cupy keras" \
- && if [ "x${NO_PROXY}" != "x" ]; then export no_proxy="${NO_PROXY}"; fi \
- && if [ "x${NO_PROXY}" != "x" ]; then export NO_PROXY="${NO_PROXY}"; fi \
- && if [ "x${FTP_PROXY}" != "x" ]; then export ftp_proxy="${FTP_PROXY}"; fi \
- && if [ "x${FTP_PROXY}" != "x" ]; then export FTP_PROXY="${FTP_PROXY}"; fi \
- && if [ "x${HTTP_PROXY}" != "x" ]; then export http_proxy="${HTTP_PROXY}"; fi \
- && if [ "x${HTTP_PROXY}" != "x" ]; then export HTTP_PROXY="${HTTP_PROXY}"; fi \
- && if [ "x${HTTPS_PROXY}" != "x" ]; then export https_proxy="${HTTPS_PROXY}"; fi \
- && if [ "x${HTTPS_PROXY}" != "x" ]; then export HTTPS_PROXY="${HTTPS_PROXY}"; fi \
  && echo "deb ${UBUNTU_MIRROR} xenial          main restricted universe multiverse" >  /etc/apt/sources.list \
  && echo "deb ${UBUNTU_MIRROR} xenial-updates  main restricted universe multiverse" >> /etc/apt/sources.list \
  && echo "deb ${UBUNTU_MIRROR} xenial-security main restricted universe multiverse" >> /etc/apt/sources.list \
